@@ -45,6 +45,36 @@
             <td>2 days</td>
         </tr>
     </table>
-            </body>
+    <hr>
+    <h2>Code display</h2>
+    <blockquote>How to rewrite URL like Stack Overflow?</blockquote>
+            <a href="https://stackoverflow.com/questions/22012045/htaccess-rewrite-url-like-stack-overflow">Link to source</a>
+           
+    <pre>
+                Options +FollowSymLinks
+                RewriteEngine On
+              
+                # Get rid of index.php
+                RewriteCond %{REQUEST_URI} /index\.php
+                RewriteRule (.*) index.php?rewrite=2 [L,QSA]
+              
+                # Rewrite all directory-looking urls
+                RewriteCond %{REQUEST_URI} /$
+                RewriteRule (.*) index.php?rewrite=1 [L,QSA]
+              
+                # Try to route missing files
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteCond %{REQUEST_FILENAME} public\/ [OR]
+                RewriteCond %{REQUEST_FILENAME} \.(jpg|gif|png|ico|flv|htm|html|php|css|js)$
+                RewriteRule . - [L]
+              
+                # If the file doesn't exist, rewrite to index
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteCond %{REQUEST_FILENAME} !-d
+                RewriteRule ^(.*)$ index.php?rewrite=1 [L,QSA]
+              
+              </pre>
+
+</body>
     </head>
 </html>
